@@ -1,0 +1,3 @@
+appid: "123"
+secret: "xxxx"
+#填写appid和secret，并把.temp删去

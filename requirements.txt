@@ -1,0 +1,31 @@
+# requirements.txt
+
+# 用于与QQ机器人API交互
+botpy==0.1.6 
+
+# 用于日志记录
+logging>=0.5.1.2
+
+# 用于处理Git仓库信息
+gitpython>=3.1.27
+
+# 用于访问OpenAI API
+openai>=0.27.4
+
+# 用于解析配置文件
+PyYAML>=6.0
+
+# 用于语音合成(TTS)
+edge-tts>=2.1.1
+
+# 用于音频处理和转换
+av>=10.0.0
+
+# 用于将PCM编码为SILK格式
+pilk>=1.0.0
+
+# 用于操作路径和文件系统
+pathlib>=1.0.1 ; python_version<"3.4" # Python 3.4+ 已内置 pathlib, 只有在更早版本中才需要安装
+
+# 用于HTTP请求
+requests>=2.28.1

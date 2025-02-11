@@ -1,0 +1,16 @@
+{
+    "low_cost_api_call":{
+        "api_type":"openai",
+        "api_key":"xxx",
+        "base_url":"xxx",
+        "model": "xxx"
+    },
+    "high_cost_api_call":{
+        "api_type":"openai",
+        "api_key":"xxx",
+        "base_url":"xxx",
+        "model": "xxx"
+    },
+    "prompt": "xxx"
+}
+#自行填写信息，然后把.temp删去
