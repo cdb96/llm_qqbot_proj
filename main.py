@@ -68,6 +68,7 @@ class MyClient(botpy.Client):
         
         elif message.content[:7] == ' /reset':
             reply.chat_history = [reply.chat_history[0]]
+            reply.last_chat_history_length = len(reply.chat_history[0])
             messageResult = await message._api.post_group_message(
                 group_openid=message.group_openid,
                 msg_type = 0,  # 7表示富媒体类型
