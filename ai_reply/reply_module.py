@@ -88,7 +88,7 @@ class ai_reply:
         
         self.reply_count += 1
         self.truncate_chat_history(2600)
-        print(f'\n低成本token数:{self.total_highcost_token},高成本token数:{self.total_lowcost_token},聊天历史长度:{len(self.chat_history)},回复次数:{self.reply_count},聊天历史文字数:{self.last_chat_history_length}')
+        print(f'\n低成本token数:{self.total_lowcost_token},高成本token数:{self.total_highcost_token},聊天历史长度:{len(self.chat_history)},回复次数:{self.reply_count},聊天历史文字数:{self.last_chat_history_length}')
         return reply_message_plaintext + f"\n\n模型:{reply_message_json['model']},记录中包含{ (len(self.chat_history) -1) // 2}轮对话,回答消耗token数:{reply_message_json['usage']['total_tokens']}"
 
 if __name__ == '__main__':

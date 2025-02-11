@@ -66,6 +66,15 @@ class MyClient(botpy.Client):
                 content = f'当前版本githash:{get_git_commit_hash()}'
             )
         
+        elif message.content[:7] == ' /reset':
+            reply.chat_history = [reply.chat_history[0]]
+            messageResult = await message._api.post_group_message(
+                group_openid=message.group_openid,
+                msg_type = 0,  # 7表示富媒体类型
+                msg_id = message.id, 
+                content = f'已清除当前聊天记录,{len(reply.chat_history)}'
+            )
+        
         #AI回复实现
         else:
             print(member_id)
