@@ -79,10 +79,15 @@ class ai_reply:
         member = self.users_dict[member_id]
         
         combined_message_text = f'用户{member}说: {message}'
-        if cost_type == 'low_cost':
-            reply_message_json = self.ai_lowcost_reply(combined_message_text)
-        elif cost_type == 'high_cost':
-            reply_message_json = self.ai_highcost_reply(combined_message_text)
+        try:
+            if cost_type == 'low_cost':
+                reply_message_json = self.ai_lowcost_reply(combined_message_text)
+            elif cost_type == 'high_cost':
+                reply_message_json = self.ai_highcost_reply(combined_message_text)
+        except:
+            del self.chat_history[-1]
+            print('模型调用失败')
+            return '模型调用失败'
         reply_message_plaintext = reply_message_json['choices'][0]['message']['content']
         self.chat_history.append({'role': 'assistant', 'content': reply_message_plaintext})
         
