@@ -1,7 +1,7 @@
 # requirements.txt
 
 # 用于与QQ机器人API交互
-botpy==0.1.6 
+botpy>=0.1.6 
 
 # 用于日志记录
 logging>=0.5.1.2
