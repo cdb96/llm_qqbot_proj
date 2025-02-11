@@ -43,7 +43,7 @@ class MyClient(botpy.Client):
 
         elif message.content[:7] == ' /voice':
             truncated_message_content = message.content[7:]
-            reply.ai_reply(truncated_message_content,member_id)
+            reply.ai_reply('low_cost',member_id,truncated_message_content)
             base64_data = await return_tts_base64data(reply.chat_history[-1]['content'])
 
             uploadMedia = await message._api.post_group_base64file(
