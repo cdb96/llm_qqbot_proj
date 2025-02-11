@@ -63,7 +63,7 @@ class MyClient(botpy.Client):
                 group_openid=message.group_openid,
                 msg_type = 0,  # 7表示富媒体类型
                 msg_id = message.id, 
-                content = f'当前版本githash:{get_git_commit_hash()}'
+                content = f'当前版本commit hash：{get_git_commit_hash()}'
             )
         
         elif message.content[:7] == ' /reset':

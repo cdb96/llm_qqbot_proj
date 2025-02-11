@@ -93,5 +93,6 @@ class ai_reply:
 
 if __name__ == '__main__':
     reply = ai_reply()
-    print(reply.ai_reply('low_cost',1,'Testing purpose only(lowcost1)'))
-    print(reply.ai_reply('low_cost',1,'Testing purpose only(lowcost2)'))
+    while 1:
+        text = input()
+        print(reply.ai_reply('low_cost',1,text))
