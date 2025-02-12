@@ -11,6 +11,13 @@
         "base_url":"xxx",
         "model": "xxx"
     },
-    "prompt": "xxx"
+    "reasoner_model_api_call":{
+        "api_type":"openai",
+        "api_key":"xxx",
+        "base_url":"xxx",
+        "model": "xxx",
+        "max_chat_history_text_length": 1200
+    },
+    "prompt":"xxx",
+    "max_chat_history_text_length" : 2600
 }
-#自行填写信息，然后把.temp删去
