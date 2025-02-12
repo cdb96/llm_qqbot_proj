@@ -81,6 +81,8 @@ class MyClient(botpy.Client):
             print(member_id)
             if message.content[:4] == ' /ds':
                 cost_type = 'high_cost'
+            elif message.content[:4] == ' /rm':
+                cost_type = 'reasoner_model'
             else:
                 cost_type = 'low_cost'
             messageResult = await message._api.post_group_message(
