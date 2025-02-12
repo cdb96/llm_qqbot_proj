@@ -77,13 +77,12 @@ class ai_reply:
         truncated_index = self.get_truncate_chat_history_index(self.reasoner_model_max_chat_history_text_length)
         chat_history_for_reasoner = self.chat_history[:1] + self.chat_history[truncated_index:] + [{'role': 'user', 'content': text}]
         self.chat_history.append({'role': 'user', 'content': text})
-        print(chat_history_for_reasoner)
         completion = self.reasoner_model_api_client.llm_api_client.chat.completions.create(
             model = self.reasoner_model_api_client.llm_model_name,
             messages = chat_history_for_reasoner
         )
         text_json = json.loads(completion.model_dump_json())
-        return text_json
+        return text_json,len(chat_history_for_reasoner)
 
     def api_call_llm(self,text,cost_type):
         self.chat_history.append({'role': 'user', 'content': text})
@@ -113,7 +112,7 @@ class ai_reply:
                 reply_message_json = self.api_call_llm(combined_message_text,'high_cost')
                 self.total_highcost_token += reply_message_json['usage']['total_tokens']
             elif cost_type == 'reasoner_model':
-                reply_message_json = self.api_call_reasoner_model(combined_message_text)
+                reply_message_json,chat_history_for_reasoner_length = self.api_call_reasoner_model(combined_message_text)
                 self.total_reasoner_model_token += reply_message_json['usage']['total_tokens']
         except Exception as e:
             del self.chat_history[-1]
@@ -126,7 +125,10 @@ class ai_reply:
 
         self.truncate_chat_history(self.max_chat_history_text_length)
         print(f'\n低成本token数:{self.total_lowcost_token},高成本token数:{self.total_highcost_token},推理模型token数:{self.total_reasoner_model_token},聊天历史长度:{len(self.chat_history)},回复次数:{self.reply_count},聊天历史文字数:{self.last_chat_history_length}')
-        return reply_message_plaintext + f"\n\n模型:{reply_message_json['model']},记录中包含{ (len(self.chat_history) -1) // 2}轮对话,回答消耗token数:{reply_message_json['usage']['total_tokens']}"
+        if cost_type == 'reasoner_model':
+            return reply_message_plaintext + f"\n\n模型:{reply_message_json['model']},记录中包含{ (chat_history_for_reasoner_length) // 2}轮对话,回答消耗token数:{reply_message_json['usage']['total_tokens']}"
+        else:
+            return reply_message_plaintext + f"\n\n模型:{reply_message_json['model']},记录中包含{ (len(self.chat_history) -1) // 2}轮对话,回答消耗token数:{reply_message_json['usage']['total_tokens']}"
 
 if __name__ == '__main__':
     reply = ai_reply()
