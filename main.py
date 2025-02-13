@@ -14,17 +14,25 @@ from botpy.message import GroupMessage, Message
 
 test_config = read(os.path.join(os.path.dirname(__file__), "config/config.yaml"))
 _log = logging.get_logger()
-reply = ai_reply()
+group_session_dict = {}
 
+def manage_group_session(group_id):
+    if group_id not in group_session_dict:
+        group_session_dict[group_id] = ai_reply()
+    return group_session_dict[group_id]
 def get_git_commit_hash():
     repo = git.Repo(os.path.dirname(__file__))
     return repo.head.object.hexsha
+
 class MyClient(botpy.Client):
     async def on_ready(self):
         _log.info(f"robot 「{self.robot.name}」 on_ready!")
     async def on_group_at_message_create(self, message: GroupMessage):
         #tts模块
         member_id = message.author.member_openid
+        group_id = message.group_openid
+        reply = manage_group_session(group_id)
+
         if message.content[:5] == ' /tts':
             truncated_message_content = message.content[5:]
             base64_data = await return_tts_base64data(truncated_message_content)        
