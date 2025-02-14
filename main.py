@@ -24,6 +24,11 @@ def get_git_commit_hash():
     repo = git.Repo(os.path.dirname(__file__))
     return repo.head.object.hexsha
 
+COMMAND_COST_TYPE_MAP = {
+    '/ds': 'high_cost',
+    '/rm': 'reasoner_model'
+}
+
 class MyClient(botpy.Client):
     async def on_ready(self):
         _log.info(f"robot 「{self.robot.name}」 on_ready!")
@@ -87,17 +92,16 @@ class MyClient(botpy.Client):
         #AI回复实现
         else:
             print(member_id)
-            if message.content[:4] == ' /ds':
-                cost_type = 'high_cost'
-            elif message.content[:4] == ' /rm':
-                cost_type = 'reasoner_model'
-            else:
-                cost_type = 'low_cost'
+
+            command = message.content[:4].strip()
+            cost_type = COMMAND_COST_TYPE_MAP.get(command, 'low_cost')
+            message_content = message.content[4:] if command in COMMAND_COST_TYPE_MAP else message.content
+
             messageResult = await message._api.post_group_message(
                 group_openid=message.group_openid,
                 msg_type = 0, 
                 msg_id = message.id,
-                content=f"{reply.ai_reply(cost_type,member_id,message.content)}")
+                content=f"{reply.ai_reply(cost_type,member_id,message_content)}")
         
         _log.info(messageResult)
 
